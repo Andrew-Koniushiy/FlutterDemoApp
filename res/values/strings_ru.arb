@@ -1,0 +1,13 @@
+{
+  "appDescription": "Демо приложение используя BLoC паттерн",
+  "loginTitle": "Войти в UWhiz",
+  "lngDialogTitle": "Выберите язык",
+  "lngEn": "Аглийский",
+  "lngRu": "Русский",
+  "lngUk": "Украинский",
+  "changeLanguageButton": "Язык",
+  "loginFieldHint": "Логин",
+  "passFieldHint": "Пароль",
+  "fieldValidationErrorMessage": "$label не должено быть пустым",
+  "loginButton": "Войти"
+}

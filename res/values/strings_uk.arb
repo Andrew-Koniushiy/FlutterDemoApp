@@ -1,0 +1,13 @@
+{
+  "appDescription": "Демо-додаток за допомогою шаблону BLoC",
+  "loginTitle": "Увійти до UWhiz",
+  "lngDialogTitle": "Оберіть мову",
+  "lngEn": "Аглийська",
+  "lngRu": "Русійська",
+  "lngUk": "Українська",
+  "changeLanguageButton": "Мова",
+  "loginFieldHint": "Логін",
+  "passFieldHint": "Пароль",
+  "fieldValidationErrorMessage": "$label не повинний бути порожнім!",
+  "loginButton": "Авторизуватись"
+}

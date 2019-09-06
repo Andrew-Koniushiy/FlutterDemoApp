@@ -1,0 +1,13 @@
+{
+  "appDescription": "Demo App using the BLoC pattern",
+  "changeLanguageButton": "Language",
+  "lngDialogTitle": "Select language",
+  "lngEn": "English",
+  "lngRu": "Russian",
+  "lngUk": "Ukrainian",
+  "loginTitle": "Login to UWhiz",
+  "loginFieldHint": "Login",
+  "passFieldHint": "Password",
+  "fieldValidationErrorMessage": "$label mast not be blank!",
+  "loginButton": "Login"
+}
