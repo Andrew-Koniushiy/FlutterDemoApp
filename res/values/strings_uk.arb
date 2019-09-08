@@ -1,13 +1,15 @@
 {
   "appDescription": "Демо-додаток за допомогою шаблону BLoC",
-  "loginTitle": "Увійти до UWhiz",
+  "changeLanguageButton": "Мова",
   "lngDialogTitle": "Оберіть мову",
   "lngEn": "Аглийська",
-  "lngRu": "Русійська",
+  "lngRu": "Російська",
   "lngUk": "Українська",
-  "changeLanguageButton": "Мова",
+  "loginTitle": "Флаттер Демо",
   "loginFieldHint": "Логін",
   "passFieldHint": "Пароль",
-  "fieldValidationErrorMessage": "$label не повинний бути порожнім!",
-  "loginButton": "Авторизуватись"
+  "loginButton": "Авторизуватись",
+  "emptyValueValidationError": "$label не повинний бути порожнім!",
+  "emailValueValidationError": "Некоректний $value",
+  "minLengthValidationError": "$value менше ніж $min"
 }

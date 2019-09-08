@@ -5,9 +5,11 @@
   "lngEn": "English",
   "lngRu": "Russian",
   "lngUk": "Ukrainian",
-  "loginTitle": "Login to UWhiz",
+  "loginTitle": "Flutter Demo App",
   "loginFieldHint": "Login",
   "passFieldHint": "Password",
-  "fieldValidationErrorMessage": "$label mast not be blank!",
-  "loginButton": "Login"
+  "loginButton": "Login",
+  "emptyValueValidationError": "$value can't be blank",
+  "emailValueValidationError": "Invalid $value",
+  "minLengthValidationError": "$value less then $min"
 }

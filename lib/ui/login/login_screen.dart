@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/generated/i18n.dart';
 import 'package:flutter_app/ui/login/login_form.dart';
@@ -8,52 +7,46 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      child: Column(
-        children: <Widget>[buildImageContainer(context), LoginForm()],
-      ),
-    );
-  }
-
-  Container buildImageContainer(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-          color: Colors.blue,
-          image: DecorationImage(
-              fit: BoxFit.cover,
-              image: Image.asset(
-                'images/login.png',
-              ).image)),
-      child: AspectRatio(
-        aspectRatio: 3 / 2,
-        child: Padding(
-          padding: EdgeInsets.only(
-            top: 30,
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
+    var size = MediaQuery.of(context).size;
+    return Stack(
+      children: <Widget>[
+        buildImage(size),
+        Padding(
+          padding: const EdgeInsets.only(top: 25, right: 5),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: <Widget>[buildOutlineButton(context)],
-              ),
+              buildLanguageButton(context),
             ],
           ),
         ),
-      ),
+        LoginForm(),
+      ],
     );
   }
 
-  OutlineButton buildOutlineButton(BuildContext context) {
+  Image buildImage(Size size) {
+    return Image.asset(
+      'assets/images/login_background.jpg',
+      width: size.width,
+      height: size.height,
+      fit: BoxFit.cover,
+      filterQuality: FilterQuality.medium,
+    );
+  }
+
+  OutlineButton buildLanguageButton(BuildContext context) {
     return OutlineButton.icon(
       icon: const Icon(
         Icons.language,
         size: 24.0,
-        color: Colors.white,
       ),
-      label: Text(S.of(context).changeLanguageButton),
-      textColor: Colors.white,
+      label: Text(S.of(context).changeLanguageButton.toUpperCase()),
+      borderSide: BorderSide(
+          width: 1,
+          style: BorderStyle.solid,
+          color: Theme.of(context).primaryColorDark),
+      textColor: Theme.of(context).primaryColorDark,
       onPressed: () {
         showMaterialDialog(
           context: context,

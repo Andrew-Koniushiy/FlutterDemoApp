@@ -1,12 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_app/redux/app/app_state.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:redux/redux.dart';
 
 import 'generated/i18n.dart';
 import 'ui/login/login_screen.dart';
 
-void main() => runApp(MyApp());
+void main() => runApp(DemoApp(null));
 
-class MyApp extends StatefulWidget {
+//Future<Null> main() async {
+//  var store = await createStore();
+//  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp])
+//      .then((_) {
+//    runApp(DemoApp(store));
+//  });
+//}
+
+class DemoApp extends StatefulWidget {
+  final Store<AppState> store;
   static const _appDelegate = S.delegate;
   static const List<LocalizationsDelegate> _materialDelegates = [
     _appDelegate,
@@ -14,13 +25,18 @@ class MyApp extends StatefulWidget {
     GlobalMaterialLocalizations.delegate,
     GlobalWidgetsLocalizations.delegate,
   ];
+  final appDescription = "Demo App using the BLoC pattern";
+
+  DemoApp(this.store);
 
   @override
-  _MyAppState createState() => _MyAppState();
+  _DemoAppState createState() => _DemoAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _DemoAppState extends State<DemoApp> {
   var _currentLocale = Locale('en');
+
+//  SettingsOptions _options;
 
   onLocaleChange(Locale l) {
     setState(() {
@@ -31,38 +47,36 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'Demo App using the BLoC pattern',
         debugShowCheckedModeBanner: false,
-        localizationsDelegates: MyApp._materialDelegates,
-        supportedLocales: MyApp._appDelegate.supportedLocales,
-        locale: _currentLocale,
-//        localeResolutionCallback: (locale, supportedLocales) {
-//          Locale enLocale = Locale('en');
-//          for (var supportedLocale in supportedLocales) {
-//            if (supportedLocale.languageCode == enLocale.languageCode) {
-//              enLocale = supportedLocale;
-//            }
-////            if (supportedLocale.countryCode == locale.countryCode
-////                && supportedLocale.languageCode == locale.languageCode) {
-////              return supportedLocale;
-////            }
-//          }
-//          return enLocale;
-//        },
         showSemanticsDebugger: false,
-        theme: ThemeData(
-          backgroundColor: Colors.white,
-          fontFamily: 'PTSans',
-          textTheme: TextTheme(
-              headline: TextStyle(fontStyle: FontStyle.normal, fontSize: 30),
-              display2: TextStyle(fontStyle: FontStyle.normal, fontSize: 16),
-              display1: TextStyle(fontStyle: FontStyle.normal, fontSize: 20)),
-          buttonColor: Colors.green.shade700,
-          buttonTheme: ButtonThemeData(
-              buttonColor: Colors.green.shade700,
-              textTheme: ButtonTextTheme.primary),
-          primarySwatch: Colors.green,
-        ),
+        title: widget.appDescription,
+        localizationsDelegates: DemoApp._materialDelegates,
+        supportedLocales: DemoApp._appDelegate.supportedLocales,
+        locale: _currentLocale,
+        theme: buildThemeData(),
         home: LoginScreen(onLocaleChange: onLocaleChange));
+  }
+
+  ThemeData buildThemeData() {
+    return ThemeData(
+      backgroundColor: Colors.white,
+      colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blueGrey),
+      fontFamily: 'PTSans',
+      textTheme: TextTheme(
+          button: TextStyle(
+            fontFamily: 'PTSans',
+            fontSize: 20,
+            fontStyle: FontStyle.normal,
+            fontWeight: FontWeight.w400,
+          ),
+          headline: TextStyle(fontStyle: FontStyle.normal, fontSize: 30),
+          display2: TextStyle(fontStyle: FontStyle.normal, fontSize: 16),
+          display1: TextStyle(fontStyle: FontStyle.normal, fontSize: 20)),
+      buttonTheme: ButtonThemeData(
+        textTheme: ButtonTextTheme.primary,
+        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.blueGrey),
+      ),
+      primarySwatch: Colors.blueGrey,
+    );
   }
 }

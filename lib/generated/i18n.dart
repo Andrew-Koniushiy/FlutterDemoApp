@@ -29,9 +29,11 @@ class S implements WidgetsLocalizations {
   String get lngUk => "Ukrainian";
   String get loginButton => "Login";
   String get loginFieldHint => "Login";
-  String get loginTitle => "Login to UWhiz";
+  String get loginTitle => "Flutter Demo App";
   String get passFieldHint => "Password";
-  String fieldValidationErrorMessage(String label) => "$label mast not be blank!";
+  String emailValueValidationError(String value) => "Invalid $value";
+  String emptyValueValidationError(String value) => "$value can't be blank";
+  String minLengthValidationError(String value, String min) => "$value less then $min";
 }
 
 class $ru extends S {
@@ -45,23 +47,27 @@ class $ru extends S {
   @override
   String get passFieldHint => "Пароль";
   @override
-  String get loginFieldHint => "Логин";
-  @override
   String get changeLanguageButton => "Язык";
   @override
-  String get loginButton => "Войти";
-  @override
   String get appDescription => "Демо приложение используя BLoC паттерн";
-  @override
-  String get loginTitle => "Войти в UWhiz";
   @override
   String get lngEn => "Аглийский";
   @override
   String get lngRu => "Русский";
   @override
+  String get loginFieldHint => "Логин";
+  @override
+  String get loginButton => "Войти";
+  @override
+  String get loginTitle => "Флаттер Дэмо";
+  @override
   String get lngUk => "Украинский";
   @override
-  String fieldValidationErrorMessage(String label) => "$label не должено быть пустым";
+  String minLengthValidationError(String value, String min) => "$value меньше чем $min";
+  @override
+  String emptyValueValidationError(String value) => "$value не должен быть пустым";
+  @override
+  String emailValueValidationError(String value) => "Некоректний $value";
 }
 
 class $uk extends S {
@@ -75,23 +81,27 @@ class $uk extends S {
   @override
   String get passFieldHint => "Пароль";
   @override
-  String get loginFieldHint => "Логін";
-  @override
   String get changeLanguageButton => "Мова";
-  @override
-  String get loginButton => "Авторизуватись";
   @override
   String get appDescription => "Демо-додаток за допомогою шаблону BLoC";
   @override
-  String get loginTitle => "Увійти до UWhiz";
-  @override
   String get lngEn => "Аглийська";
   @override
-  String get lngRu => "Русійська";
+  String get lngRu => "Російська";
+  @override
+  String get loginFieldHint => "Логін";
+  @override
+  String get loginButton => "Авторизуватись";
+  @override
+  String get loginTitle => "Флаттер Демо";
   @override
   String get lngUk => "Українська";
   @override
-  String fieldValidationErrorMessage(String label) => "$label не повинний бути порожнім!";
+  String minLengthValidationError(String value, String min) => "$value менше ніж $min";
+  @override
+  String emptyValueValidationError(String label) => "$label не повинний бути порожнім!";
+  @override
+  String emailValueValidationError(String value) => "Некоректний $value";
 }
 
 class $en extends S {

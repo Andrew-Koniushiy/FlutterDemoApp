@@ -1,13 +1,15 @@
 {
   "appDescription": "Демо приложение используя BLoC паттерн",
-  "loginTitle": "Войти в UWhiz",
+  "changeLanguageButton": "Язык",
   "lngDialogTitle": "Выберите язык",
   "lngEn": "Аглийский",
   "lngRu": "Русский",
   "lngUk": "Украинский",
-  "changeLanguageButton": "Язык",
+  "loginTitle": "Флаттер Дэмо",
   "loginFieldHint": "Логин",
   "passFieldHint": "Пароль",
-  "fieldValidationErrorMessage": "$label не должено быть пустым",
-  "loginButton": "Войти"
+  "loginButton": "Войти",
+  "emptyValueValidationError": "$value не должен быть пустым",
+  "emailValueValidationError": "Некоректний $value",
+  "minLengthValidationError": "$value меньше чем $min"
 }

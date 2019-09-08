@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 void showToast(String msg) {
@@ -6,6 +5,7 @@ void showToast(String msg) {
       msg: msg,
       toastLength: Toast.LENGTH_SHORT,
       gravity: ToastGravity.BOTTOM,
-      backgroundColor: Colors.black38,
+//      backgroundColor: Colors.blueGrey,
+//      textColor: Colors.amber,
       timeInSecForIos: 1);
 }
