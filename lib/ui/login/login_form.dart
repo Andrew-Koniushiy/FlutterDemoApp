@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_app/generated/i18n.dart';
 import 'package:flutter_app/utils/toast.dart';
@@ -9,41 +10,67 @@ import 'package:flutter_app/widgets/material_text_field.dart';
 import 'package:keyboard_avoider/keyboard_avoider.dart';
 
 class LoginForm extends StatefulWidget {
-  LoginForm({Key key}) : super(key: key);
+  final Animation<double> animation;
+  final height;
+
+  LoginForm({Key key, @required this.animation, this.height}) : super(key: key);
 
   @override
   _LoginFormState createState() => _LoginFormState();
 }
 
-class _LoginFormState extends State<LoginForm> {
+typedef AnimationUpdateCallback = void Function();
+
+class _LoginFormState extends State<LoginForm> with TickerProviderStateMixin {
   final _formKey = GlobalKey<FormState>();
   final _passKey = GlobalKey<FormFieldState>();
   final _loginKey = GlobalKey<FormFieldState>();
   final _loginNodeFocus = FocusNode();
   final _passNodeFocus = FocusNode();
+  AnimationUpdateCallback callback;
+  Tween<double> _translateTween;
+
+  @override
+  void initState() {
+    super.initState();
+    LogUtil.v(
+        '_LoginFormState -> initState ->  addListener AnimationUpdateCallback');
+    callback = () => {setState(() {})};
+    _translateTween = Tween<double>(begin: widget.height, end: 0);
+    widget.animation..addListener(callback);
+  }
 
   @override
   void dispose() {
     _loginNodeFocus.dispose();
     _passNodeFocus.dispose();
+    LogUtil.v(
+        '_LoginFormState -> dispose ->  removeListener AnimationUpdateCallback');
+    widget.animation.removeListener(callback);
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: <Widget>[
-        Card(
-          elevation: 20,
-          borderOnForeground: true,
-          margin: EdgeInsets.symmetric(horizontal: 16),
-          clipBehavior: Clip.antiAliasWithSaveLayer,
-          shape: RoundedRectangleBorder(
-              side: BorderSide(), borderRadius: BorderRadius.circular(10)),
-          child: buildDecoratedBox(context),
-        ),
-      ],
+    return Transform.translate(
+      offset: Offset(0, this._translateTween.evaluate(widget.animation)),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          Opacity(
+            opacity: widget.animation.value,
+            child: Card(
+              elevation: 20,
+              borderOnForeground: true,
+              margin: EdgeInsets.symmetric(horizontal: 16),
+              clipBehavior: Clip.antiAliasWithSaveLayer,
+              shape: RoundedRectangleBorder(
+                  side: BorderSide(), borderRadius: BorderRadius.circular(10)),
+              child: buildDecoratedBox(context),
+            ),
+          ),
+        ],
+      ),
     );
   }
 

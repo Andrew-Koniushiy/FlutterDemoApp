@@ -1,6 +1,6 @@
 # flutter_app
 
-A new Flutter application.
+A demo Flutter application using https://unsplash.com/
 
 ## Getting Started
 

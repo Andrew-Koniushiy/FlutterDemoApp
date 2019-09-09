@@ -1,5 +1,6 @@
 import 'package:flutter_app/redux/app/app_reducer.dart';
 import 'package:flutter_app/redux/app/app_state.dart';
+import 'package:flutter_app/redux/locale/locale_middleware.dart';
 import 'package:flutter_app/redux/photo/photo_middleware.dart';
 import 'package:logging/logging.dart';
 import 'package:redux/redux.dart';
@@ -11,6 +12,7 @@ Future<Store<AppState>> createStore() async {
     initialState: AppState.initial(),
     middleware: []
       ..addAll(createPhotoMiddleware())
+      ..addAll(createLocaleMiddleware())
       ..addAll([
         LoggingMiddleware<dynamic>.printer(level: Level.ALL),
       ]),

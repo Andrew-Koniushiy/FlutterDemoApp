@@ -1,27 +1,63 @@
+import 'package:common_utils/common_utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_app/generated/i18n.dart';
+import 'package:flutter_app/redux/app/app_state.dart';
 import 'package:flutter_app/ui/login/login_form.dart';
+import 'package:flutter_app/ui/login/login_screen_view_model.dart';
+import 'package:flutter_app/widgets/language_button.dart';
+import 'package:flutter_redux/flutter_redux.dart';
 
-class LoginScreen extends StatelessWidget {
-  final onLocaleChange;
+class LoginScreen extends StatefulWidget {
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen>
+    with TickerProviderStateMixin {
+  AnimationController _controller;
+  Animation<double> _opacityAnimation;
+  final loginAnimationDuration = const Duration(seconds: 1, microseconds: 500);
+
+  _LoginScreenState() {
+    LogUtil.init(isDebug: true, tag: '[ANIMATION]');
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    _controller = AnimationController(
+        duration: loginAnimationDuration,
+        vsync: this,
+        debugLabel: 'LoginAnimationController');
+    LogUtil.v('_LoginScreenState -> initState() -> crete _controller');
+
+    _opacityAnimation = Tween<double>(begin: 0, end: 1).animate(_controller);
+
+    LogUtil.v('_LoginScreenState -> initState() -> start animation');
+    _controller.forward();
+  }
+
+  @override
+  void dispose() {
+    LogUtil.v('_LoginScreenState -> dispose() -> _controller.dispose()s');
+    _controller ?? _controller.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    return Stack(
-      children: <Widget>[
-        buildImage(size),
-        Padding(
-          padding: const EdgeInsets.only(top: 25, right: 5),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[
-              buildLanguageButton(context),
-            ],
-          ),
-        ),
-        LoginForm(),
-      ],
+    return StoreConnector<AppState, LoginScreenViewModel>(
+      converter: LoginScreenViewModel.fromStore,
+      builder: (BuildContext context, LoginScreenViewModel vm) {
+        return Stack(
+          children: <Widget>[
+            buildImage(size),
+            LanguageButton(animation: this._opacityAnimation, viewModel: vm),
+            LoginForm(animation: this._opacityAnimation, height: size.height),
+          ],
+        );
+      },
     );
   }
 
@@ -34,73 +70,4 @@ class LoginScreen extends StatelessWidget {
       filterQuality: FilterQuality.medium,
     );
   }
-
-  OutlineButton buildLanguageButton(BuildContext context) {
-    return OutlineButton.icon(
-      icon: const Icon(
-        Icons.language,
-        size: 24.0,
-      ),
-      label: Text(S.of(context).changeLanguageButton.toUpperCase()),
-      borderSide: BorderSide(
-          width: 1,
-          style: BorderStyle.solid,
-          color: Theme.of(context).primaryColorDark),
-      textColor: Theme.of(context).primaryColorDark,
-      onPressed: () {
-        showMaterialDialog(
-          context: context,
-        );
-      },
-    );
-  }
-
-  Future<void> showMaterialDialog({BuildContext context}) async {
-    var dialogResult = await showDialog<String>(
-        context: context,
-        builder: (BuildContext context) {
-          return SimpleDialog(
-            title: Text(S.of(context).lngDialogTitle),
-            children: <Widget>[
-              SimpleDialogOption(
-                onPressed: () {
-                  Navigator.pop(context, 'en');
-                },
-                child: text(context, S.of(context).lngEn),
-              ),
-              SimpleDialogOption(
-                onPressed: () {
-                  Navigator.pop(context, 'ru');
-                },
-                child: text(context, S.of(context).lngRu),
-              ),
-              SimpleDialogOption(
-                onPressed: () {
-                  Navigator.pop(context, 'uk');
-                },
-                child: text(context, S.of(context).lngUk),
-              ),
-            ],
-          );
-        });
-    if (dialogResult != null) {
-      onLocaleChange(Locale(dialogResult));
-    }
-  }
-
-  Padding text(BuildContext context, String label) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Text(
-        label,
-        style: Theme.of(context).textTheme.display2.merge(TextStyle(
-            fontWeight: FontWeight.normal,
-            decorationStyle: TextDecorationStyle.dotted)),
-      ),
-    );
-  }
-
-  LoginScreen({
-    @required this.onLocaleChange,
-  });
 }
