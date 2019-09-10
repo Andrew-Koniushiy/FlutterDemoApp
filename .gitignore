@@ -108,10 +108,7 @@ DerivedData/
 *.hmap
 
 ## App packaging
-*.ipa
 *.dSYM.zip
-*.dSYM
-
 ## Playgrounds
 timeline.xctimeline
 playground.xcworkspace
@@ -277,3 +274,6 @@ Network Trash Folder
 Temporary Items
 .apdisk
 
+.bitrise*
+!/.bitrise.secrets.yml.example
+/ios/Podfile.lock

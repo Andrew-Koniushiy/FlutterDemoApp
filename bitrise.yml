@@ -1,0 +1,73 @@
+format_version: "6"
+default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
+project_type: fastlane
+trigger_map:
+  - push_branch: master
+    workflow: deploy_android
+workflows:
+  deploy_android:
+    description: Upload android build to the DeployGate
+    envs:
+      - opts:
+          is_expand: false
+        store_file: android/keystore/simple.keystore
+    steps:
+      - activate-ssh-key:
+          run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
+          inputs:
+            - verbose: "true"
+      - git-clone: {}
+      - flutter-build:
+          is_always_run: true
+          inputs:
+            - is_debug_mode: "true"
+            - platform: android
+      - sign-apk:
+          inputs:
+            - android_app: $BITRISE_APK_PATH
+            - keystore_url: file:///Users/andrew/Projects/flutter_projects/flutter_app/android/keystore/simple.keystore
+            - keystore_password: simple
+            - keystore_alias: simple
+            - private_key_password: simple
+            - verbose_log: "true"
+            - output_name: flutterapp-release
+            - apk_path: build/app/outputs/apk/release/app-release.apk
+      - deploygate--upload-app-bitrise-step:
+          inputs:
+            - owner_name: $DEPLOYGATE_USER
+            - app_path: $BITRISE_APK_PATH
+            - message: $GIT_CLONE_COMMIT_MESSAGE_SUBJECT
+            - api_key: $DEPLOYGATE_API_KEY
+  deploy_ios:
+    description: upload to DeployGate  ios build
+    steps:
+      - activate-ssh-key@4.0.3:
+          run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
+      - git-clone: {}
+      - flutter-build:
+          is_always_run: true
+          inputs:
+            - is_debug_mode: "true"
+            - platform: ios
+      - script@1.1.5:
+          title: Convert app to ipa
+          inputs:
+            - content: |-
+                #!/usr/bin/env bash
+                # fail if any commands fails
+                set -e
+                # debug log
+                set -x
+
+                cd build/ios/iphoneos
+                mkdir -p Payload
+                mv Runner.app Payload/
+                zip -ry Runner.ipa Payload
+
+                envman add --key FLUTTER_IPA_PATH --value "${BITRISE_SOURCE_DIR}/build/ios/iphoneos/Runner.ipa"
+      - deploygate--upload-app-bitrise-step@1.0.1:
+          inputs:
+            - owner_name: $DEPLOYGATE_USER
+            - app_path: $BITRISE_APK_PATH
+            - message: $GIT_CLONE_COMMIT_MESSAGE_SUBJECT
+            - api_key: $DEPLOYGATE_API_KEY
