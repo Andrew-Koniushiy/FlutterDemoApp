@@ -277,3 +277,5 @@ Temporary Items
 .bitrise*
 !/.bitrise.secrets.yml.example
 /ios/Podfile.lock
+/AndroidSqlEditorDatabases/
+/ios/Flutter/flutter_export_environment.sh
